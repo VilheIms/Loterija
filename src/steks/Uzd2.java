@@ -11,7 +11,7 @@ public class Uzd2 {
 		Stack<Integer> LoterijasBumbas = new Stack<>();
 		Random rand = new Random();
 		String izvele;
-		int bumbinas, laime;
+		int bumbinas, laime, laimiga = 0;
 		String[] darbibas = {"Ģenerēt bumbiņas", "Apskatīt laimīgās bumbiņas", "Apturēt"};
 		do {
 			izvele = (String)JOptionPane.showInputDialog(null, "Izvēlies darbību", "Darbību saraksts", JOptionPane.QUESTION_MESSAGE, null, darbibas, darbibas[0]);
@@ -22,9 +22,10 @@ public class Uzd2 {
 					laime = rand.nextInt(9);
 					LoterijasBumbas.push(laime);
 					}
-				
+				laimiga = LoterijasBumbas.pop();
+				LoterijasBumbas.clear();
 				}
-				System.out.println(LoterijasBumbas);
+				System.out.println(laimiga);
 				break;
 		case "Apskatīt laimīgās bumbiņas":
 			if(!LoterijasBumbas.isEmpty())
