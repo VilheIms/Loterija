@@ -1,9 +1,10 @@
 package steks;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 import java.util.Timer;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.JOptionPane;
 
@@ -15,7 +16,8 @@ public class Uzd2 {
 		Random rand = new Random();
 		Timer timer = new Timer();
 		String izvele;
-		
+		LocalDateTime datums = LocalDateTime.now();
+		ArrayList<Integer> uzvara = new ArrayList<Integer>();
 		
 		
 		
@@ -38,19 +40,21 @@ public class Uzd2 {
 				laimiga = LoterijasBumbas.pop();
 				LoterijasBumbas.clear();
 				UzvarasBumbas.push(laimiga);
+				
 				}
-				JOptionPane.showMessageDialog(null, "Laimīgās bumbiņas: "+UzvarasBumbas, "Paziņojums", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Laimīgās bumbiņas: "+UzvarasBumbas+", Ģenerētais laiks: "+datums, "Paziņojums", JOptionPane.INFORMATION_MESSAGE);
+				uzvara.addAll(UzvarasBumbas);
 				UzvarasBumbas.clear();
 				try {
-					Thread.sleep(60000);
+					Thread.sleep(1);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 				break;
 		case "Apskatīt laimīgās bumbiņas":
-			if(!LoterijasBumbas.isEmpty())
-				JOptionPane.showMessageDialog(null, "Stekā esošā vārda garums:"+LoterijasBumbas.size(), "Paziņojums", JOptionPane.INFORMATION_MESSAGE);
+			if(!uzvara.isEmpty())
+				JOptionPane.showMessageDialog(null, "Laimīgo bumbiņu numuri:"+uzvara, "Paziņojums", JOptionPane.INFORMATION_MESSAGE);
 			else
 				JOptionPane.showMessageDialog(null, "Nav laimīgās bumbiņas!", "Paziņojums", JOptionPane.INFORMATION_MESSAGE);
 			break;
