@@ -18,7 +18,7 @@ public class Uzd2 {
 		Long Pauze = (long) 60000;
 		Long Darbiba = (long) 0;
 		ArrayList<Integer> uzvara = new ArrayList<Integer>();
-		int laime, laimiga = 0, laiks = 0, skaits = 0;
+		int laime, laimiga = 0, skaits = 0;
 		String[] darbibas = {"Ģenerēt bumbiņas", "Apskatīt laimīgās bumbiņas", "Apturēt"};
 		do {
 			izvele = (String)JOptionPane.showInputDialog(null, "Izvēlies darbību", "Darbību saraksts", JOptionPane.QUESTION_MESSAGE, null, darbibas, darbibas[0]);
@@ -28,12 +28,15 @@ public class Uzd2 {
 		case "Ģenerēt bumbiņas":
 			
 			long now1 = System.currentTimeMillis();
+			
+			
+			System.out.println(now1 - Darbiba);
 			if(now1 - Darbiba < Pauze) {
 				long palikusais = (Pauze - (now1 - Darbiba)) / 1000;
 		        JOptionPane.showMessageDialog(null,
 		                "Darbību var darīt tikai reizi minūtē!\nPalikušas: " + palikusais + " sekundes");
 		        break;
-			}
+			}else {
 			
 			LocalDateTime IzmetBumbinas = LocalDateTime.now();
 		    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -42,6 +45,7 @@ public class Uzd2 {
 				for(int i = 0; i < 3; i++) {
 					for(int j = 0; j<10; j++) {
 					laime = rand.nextInt(9);
+					
 					LoterijasBumbas.push(laime);
 					}
 				laimiga = LoterijasBumbas.pop();
@@ -53,6 +57,8 @@ public class Uzd2 {
 				uzvara.addAll(UzvarasBumbas);
 				skaits += 1;
 				UzvarasBumbas.clear();
+				Darbiba = now1;
+			}
 				break;
 		case "Apskatīt laimīgās bumbiņas":
 			if(!uzvara.isEmpty())
