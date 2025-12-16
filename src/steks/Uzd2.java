@@ -9,6 +9,7 @@ public class Uzd2 {
 
 	public static void main(String[] args) {
 		Stack<Integer> LoterijasBumbas = new Stack<>();
+		Stack<Integer> UzvarasBumbas = new Stack<>();
 		Random rand = new Random();
 		String izvele;
 		int bumbinas, laime, laimiga = 0;
@@ -17,15 +18,18 @@ public class Uzd2 {
 			izvele = (String)JOptionPane.showInputDialog(null, "Izvēlies darbību", "Darbību saraksts", JOptionPane.QUESTION_MESSAGE, null, darbibas, darbibas[0]);
 		switch(izvele) {
 		case "Ģenerēt bumbiņas":
-				for(int i = 0; i < 4; i++) {
-				for(i = 0; i<10; i++) {
+				for(int i = 0; i < 3; i++) {
+					for(int j = 0; j<10; j++) {
 					laime = rand.nextInt(9);
 					LoterijasBumbas.push(laime);
 					}
 				laimiga = LoterijasBumbas.pop();
 				LoterijasBumbas.clear();
+				UzvarasBumbas.push(laimiga);
 				}
 				System.out.println(laimiga);
+				System.out.println(UzvarasBumbas);
+				UzvarasBumbas.clear();
 				break;
 		case "Apskatīt laimīgās bumbiņas":
 			if(!LoterijasBumbas.isEmpty())
