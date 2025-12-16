@@ -1,10 +1,10 @@
 package steks;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
-import java.util.Timer;
 
 import javax.swing.JOptionPane;
 
@@ -14,24 +14,31 @@ public class Uzd2 {
 		Stack<Integer> LoterijasBumbas = new Stack<>();
 		Stack<Integer> UzvarasBumbas = new Stack<>();
 		Random rand = new Random();
-		Timer timer = new Timer();
 		String izvele;
-		LocalDateTime datums = LocalDateTime.now();
+		Long Pauze = (long) 60000;
+		Long Darbiba = (long) 0;
 		ArrayList<Integer> uzvara = new ArrayList<Integer>();
-		
-		
-		
-		
-		int bumbinas, laime, laimiga = 0, laiks = 0;
+		int laime, laimiga = 0, laiks = 0, skaits = 0;
 		String[] darbibas = {"Ģenerēt bumbiņas", "Apskatīt laimīgās bumbiņas", "Apturēt"};
 		do {
 			izvele = (String)JOptionPane.showInputDialog(null, "Izvēlies darbību", "Darbību saraksts", JOptionPane.QUESTION_MESSAGE, null, darbibas, darbibas[0]);
+			if(izvele == null)
+				izvele = "Apturēt";
 		switch(izvele) {
 		case "Ģenerēt bumbiņas":
-			if(laiks != 0) {
-				System.out.println("Nav vēl laiks beidzies! Atlikušais laiks: "+laiks);
-				break;
-			}else {
+			
+			long now1 = System.currentTimeMillis();
+			if(now1 - Darbiba < Pauze) {
+				long palikusais = (Pauze - (now1 - Darbiba)) / 1000;
+		        JOptionPane.showMessageDialog(null,
+		                "Darbību var darīt tikai reizi minūtē!\nPalikušas: " + palikusais + " sekundes");
+		        break;
+			}
+			
+			LocalDateTime IzmetBumbinas = LocalDateTime.now();
+		    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		    String Datums = IzmetBumbinas.format(myFormatObj);
+			
 				for(int i = 0; i < 3; i++) {
 					for(int j = 0; j<10; j++) {
 					laime = rand.nextInt(9);
@@ -42,19 +49,16 @@ public class Uzd2 {
 				UzvarasBumbas.push(laimiga);
 				
 				}
-				JOptionPane.showMessageDialog(null, "Laimīgās bumbiņas: "+UzvarasBumbas+", Ģenerētais laiks: "+datums, "Paziņojums", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Laimīgās bumbiņas: "+UzvarasBumbas+", Ģenerētais laiks: "+Datums, "Paziņojums", JOptionPane.INFORMATION_MESSAGE);
 				uzvara.addAll(UzvarasBumbas);
+				skaits += 1;
 				UzvarasBumbas.clear();
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
 				break;
 		case "Apskatīt laimīgās bumbiņas":
 			if(!uzvara.isEmpty())
-				JOptionPane.showMessageDialog(null, "Laimīgo bumbiņu numuri:"+uzvara, "Paziņojums", JOptionPane.INFORMATION_MESSAGE);
+				for(int i = 0; i < skaits; i++) {
+				JOptionPane.showMessageDialog(null, "Laimīgo bumbiņu numuri:"+uzvara.get(i)+" | "+uzvara.get(i+1)+" | "+uzvara.get(i+2), "Paziņojums", JOptionPane.INFORMATION_MESSAGE);
+				}
 			else
 				JOptionPane.showMessageDialog(null, "Nav laimīgās bumbiņas!", "Paziņojums", JOptionPane.INFORMATION_MESSAGE);
 			break;
